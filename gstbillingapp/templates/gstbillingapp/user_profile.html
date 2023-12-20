@@ -1,0 +1,68 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+
+
+{% block content %}
+<div class="row">
+	<div class="col">
+		<h2>Profile</h2>
+	</div>
+	<div class="col">
+		<a href="{% url 'user_profile_edit' %}" id="user_profile_edit_btn"><button type="button"
+				class="btn btn-primary">Edit</button></a>
+	</div>
+</div>
+<table class="table">
+	<tbody class="two-col-form">
+		<tr>
+			<th scope="row" class="text-right">Business Name:</th>
+			<td class="form-input-td customer_search_area">{{user_profile.business_title}}</td>
+		</tr>
+		<tr>
+			<th scope="row" class="text-right">Address:</th>
+			<td class="form-input-td">{{user_profile.business_address}}</td>
+		</tr>
+		<tr>
+			<th scope="row" class="text-right">Email:</th>
+			<td class="form-input-td">{{user_profile.business_email}}</td>
+		</tr>
+		<tr>
+			<th scope="row" class="text-right">Phone:</th>
+			<td class="form-input-td">{{user_profile.business_phone}}</td>
+		</tr>
+		<tr>
+			<th scope="row" class="text-right">GST:</th>
+			<td class="form-input-td">{{user_profile.business_gst}}</td>
+		</tr>
+	</tbody>
+</table>
+<!-- <table class="table table-bordered" id="product-table">
+	<thead>
+		<tr>
+			<th>Product Name</th>
+			<th>HSN</th>
+			<th>Rate With GST</th>
+			<th>GST %</th>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody class="two-col-form">
+		{% for product in products %}
+		<tr>
+			<td>{{product.product_name}}</td>
+			<td>{{product.product_hsn}}</td>
+			<td>{{product.product_rate_with_gst}}</td>
+			<td>{{product.product_gst_percentage}}</td>
+			<td><a href="{% url 'product_edit' product.id %}"><button type="button"
+						class="btn btn-primary">Edit</button></a></td>
+			<td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#productDeleteModal"
+					data-product-id="{{product.id}}" data-product-name="{{product.product_name}}">Delete</button></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table> -->
+
+{% endblock %}

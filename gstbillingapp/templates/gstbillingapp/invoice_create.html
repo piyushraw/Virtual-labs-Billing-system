@@ -1,0 +1,241 @@
+{% extends "gstbillingapp/base.html" %}
+
+
+{% load static %}
+<!doctype html>
+
+{% block content %}
+
+
+
+
+ <!--  Bill details starts from here -->
+
+<form method="POST" id="invoice-form" hidden="true">
+
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th class="table-active" scope="col" colspan="4">Bill Details</th>
+			</tr>
+		</thead>
+                                           
+
+		<tbody class="two-col-form">
+			<tr>
+				<th scope="row">Invoice No.</th>
+				<td class="form-input-td"><input name="invoice-number" type="number" class="form-control" placeholder="Invoice Number" value="{{default_invoice_number}}"></td>
+
+				<th scope="row"> Invoice Date:</th>
+				<td class="form-input-td"><input name="invoice-date" type="date" class="form-control", value="{{default_invoice_date}}"></td>
+
+				<!-- <th scope="row">Invoice No.:</th>
+				<td class="form-input-td"><input name="invoice-Number" type="number" class="form-control" value="{{default_invoice_date}}"> </td>  -->
+
+				<!-- <th scope="row">GSTIN No.:</th>
+				<td class="form-input-td"><input autocomplete="off" name="customer-gst" type="text" class="form-control" id="customer-gst-input" placeholder="Customer GST" maxlength="15" pattern="([A-Za-z0-9]{15})|(^$)"></td> -->
+			     
+<br>
+				<div class="dropdown">
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					  Cateogry
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					  <a class="dropdown-item" href="{% url 'TAbills' %}">T.A. Bill</a>
+					  <a class="dropdown-item" href="{% url 'DAbills' %}">D.A. Bill</a>
+					  <a class="dropdown-item" href="#"></a>
+					</div>
+				  </div>
+			
+			</tr>
+		</tbody>
+	</table>
+
+	                                               <!--  Ensds here -->
+
+
+	                              <!--  Customer Deatils starts from here -->
+
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th class="table-active" scope="col" colspan="4"><h>Customer Details</h></th>
+			</tr>
+		</thead>
+
+		<tbody class="two-col-form">
+			<tr>
+				<th scope="row">Customer Name:</th>
+				<td class="form-input-td customer_search_area"><input autocomplete="off" name="customer-name" type="text" class="form-control customer_search_input" id="customer-name-input" placeholder="Customer Name" required>
+				</td>
+				<th scope="row">Customer Address:</th>
+				<td class="form-input-td"><input autocomplete="off" name="customer-address" type="text" class="form-control" id="customer-address-input" placeholder="Customer Address" required></td>
+			</tr>
+			<tr>
+				<th scope="row">Customer Mobile Number:</th>
+				<td class="form-input-td"><input autocomplete="off" name="customer-phone" type="tel" class="form-control" id="customer-phone-input" placeholder="Customer Mobile Number"></td>
+				<th scope="row">GSTIN No.:</th>
+				<td class="form-input-td"><input autocomplete="off" name="customer-gst" type="text" class="form-control" id="customer-gst-input" placeholder="Customer GST" maxlength="15" pattern="([A-Za-z0-9]{15})|(^$)"></td>
+			     
+			</tr>
+
+		</tbody>
+	</table>
+ 
+	                                         <!-- Ends here -->
+ 
+	<table class="table table-bordered">
+		<tbody class="two-col-form">
+			<tr>
+			
+
+				<td class="form-input-td"><input autocomplete="off" name="vehicle-number" type="text" class="form-control" placeholder="Vehicle Number">
+				</td>
+				<th scope="row"></th>
+				<td class="form-input-td">
+					<div class="form-check">
+						<input class="form-check-input" name="igstcheck" type="checkbox" id="igstcheck">
+						<label class="form-check-label" for="igstcheck">
+							IGST
+						</label>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<!--Invoice content -->
+
+	<table class="table table-bordered" id="invoice-form-items-table">
+		<thead>
+			<th class="table-active" scope="col" colspan="13">Product/Item Details</th>
+
+			<tr>
+				<th scope="col">Sl No.</th>
+				<th scope="col" id="product">Product Name</th>
+				<th scope="col">HSN</th>
+				<th scope="col">Unit</th>
+				<th scope="col" id="qty">Oty</th>
+				<th scope="col" id="rate">Rate With GST</th>
+				<th scope="col">GST %</th>
+
+
+				<!-- <th scope="col">Amt without GST</th>
+				    <th scope="col">SGST</th>
+				    <th scope="col">CGST</th>
+				    <th scope="col">IGST</th>
+				    <th scope="col">Amt with GST</th>  -->
+
+			</tr>
+		</thead>
+		<tbody id="invoice-form-items-table-body">
+			<tr>
+				<td class="invoice-item-slno">1</td>
+				<td class="form-input-td"><input name="invoice-product" type="text" class="form-control product_search_area product_search_input" placeholder="Product"></td>
+				<td class="form-input-td"><input name="invoice-hsn" type="text" class="form-control" placeholder="HSN"></td>
+				<td class="form-input-td"><input name="invoice-unit" type="text" class="form-control" placeholder="Unit"></td>
+				<td class="form-input-td"><input name="invoice-qty" type="number" step="any" class="form-control" placeholder="Qty"></td>
+				<td class="form-input-td"><input name="invoice-rate-with-gst" type="number" step="any" class="form-control" placeholder="Rate with GST"></td>
+				<td class="form-input-td"><input name="invoice-gst-percentage" type="number" step="any" class="form-control" placeholder="GST %"></td>
+
+
+				<td class="form-input-td"><input name="invoice-rate-without-gst" type="number" step="any" class="form-control" placeholder="Rate without GST" readonly></td>
+				<td class="form-input-td"><input name="invoice-amt-without-gst" type="number" step="any" class="form-control" readonly></td>
+				<td class="form-input-td"><input name="invoice-amt-sgst" type="number" step="any" class="form-control" readonly></td>
+				<td class="form-input-td"><input name="invoice-amt-cgst" type="number" step="any" class="form-control" readonly></td>
+				<td class="form-input-td"><input name="invoice-amt-igst" type="number" step="any" class="form-control" readonly></td>
+				<td class="form-input-td"><input name="invoice-amt-with-gst" type="number" step="any" class="form-control" readonly></td>
+			</tr>
+		</tbody>
+
+		<tr>
+			<td colspan="8" class="text-right"><strong>TOTAL:</strong></td>
+			<td class="form-input-td"><input name="invoice-total-amt-without-gst" type="number" step="any" class="form-control" readonly></td>
+			<td class="form-input-td"><input name="invoice-total-amt-sgst" type="number" step="any" class="form-control" readonly></td>
+			<td class="form-input-td"><input name="invoice-total-amt-cgst" type="number" step="any" class="form-control" readonly></td>
+			<td class="form-input-td"><input name="invoice-total-amt-igst" type="number" step="any" class="form-control" readonly></td>
+			<td class="form-input-td"><input name="invoice-total-amt-with-gst" type="number" step="any" class="form-control" readonly></td>
+		</tr>
+
+		   <!--  Uplaod/File upload button  -->
+
+		<form action="/action_page.php">
+			<input type="file" id="myFile" name="filename">
+			<input type="submit">
+		  </form>
+
+                    <!-- End here -->
+
+						<!--  Summary of the receipt is here-->
+
+		                  <th scope="row">Summary</th>	
+						  
+
+		                       <!--Ends here -->
+
+	                                </table>
+									
+									
+		<table class="table table-bordered" id="product-table">
+			<thead>
+				<tr>
+					<th>Product Name</th>
+					<th>HSN</th>
+					<th>Rate With GST</th>
+					<th>GST %</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody class="two-col-form">
+				{% for product in products %}
+				<tr>
+	 				<td>{{product.product_name}}</td>
+	 				<td>{{product.product_hsn}}</td>
+	 				<td>{{product.product_rate_with_gst}}</td>
+	 				<td>{{product.product_gst_percentage}}</td>
+	 				<td><a href="{% url 'product_edit' product.id %}"><button type="button" class="btn btn-primary">Edit</button></a></td>
+	 				<td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#productDeleteModal" data-product-id="{{product.id}}" data-product-name="{{product.product_name}}">Delete</button></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	                       <!--  Table ends here -->
+
+
+	{% csrf_token %}
+	<button class="btn btn-primary" id="invoice-form-addrow">+</button>
+	<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<button onclick="add()">add</button>
+
+</div>
+<div id="customer_search_bar"></div>
+<div id="product_search_bar"></div>
+
+{% endblock %}
+
+{% block includejs %}
+<script src="{% static "gstbillingapp/js/fuse-3.4.6.min.js" %}"></script>
+<script src="{% static "gstbillingapp/js/main.js" %}"></script>
+<script>	function add() {
+	var result = document.getElementById('product').value;
+	var result1 = document.getElementById('qty').value;
+	var log = document.getElementById('rate').value;
+
+
+	var table = `<tr>
+			<td>${result}</td>
+			<td>${result1}</td>
+			<td>${log}</td>
+			</tr>
+				`;
+	xaxix.push(log);
+	yaxix.push(result1);
+	document.getElementById('tbl').innerHTML += table;
+
+}</script>
+{% endblock %}
+
+                <!-- Ends here -->

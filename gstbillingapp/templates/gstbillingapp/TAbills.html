@@ -1,0 +1,38 @@
+{% extends "gstbillingapp/base.html" %}
+
+
+{% load static %}
+<!doctype html>
+
+{% block content %}
+
+<H1>TA bills</H1>
+
+
+ <!--  Bill details starts from here -->
+
+{% endblock %}
+
+{% block includejs %}
+<script src="{% static "gstbillingapp/js/fuse-3.4.6.min.js" %}"></script>
+<script src="{% static "gstbillingapp/js/main.js" %}"></script>
+<script>	function add() {
+	var result = document.getElementById('product').value;
+	var result1 = document.getElementById('qty').value;
+	var log = document.getElementById('rate').value;
+
+
+	var table = `<tr>
+			<td>${result}</td>
+			<td>${result1}</td>
+			<td>${log}</td>
+			</tr>
+				`;
+	xaxix.push(log);
+	yaxix.push(result1);
+	document.getElementById('tbl').innerHTML += table; 
+
+}</script>
+{% endblock %}
+
+                <!-- Ends here -->
